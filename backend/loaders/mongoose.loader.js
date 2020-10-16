@@ -1,6 +1,12 @@
-
-
+import mongoose from "mongoose";
 
 export const mongooseLoader = () => {
-  console.log("express loader works well")
-}
+	mongoose.connect("mongodb://localhost/myproshop", {
+		useNewUrlParser: true,
+		useUnifiedTopology: true,
+		useCreateIndex: true,
+	}).then(() => {
+    console.log('connected to mongodb successfully'.cyan.bold.underline)
+  })
+	console.log("express loader works well");
+};

@@ -1,14 +1,13 @@
-import express from "express";
-
 import { routesLoader } from "./routes.loader";
 import { expressLoader } from "./express.loader";
 import { mongooseLoader } from "./mongoose.loader";
 import { securityLoader } from "./security.loader";
+import { productionLoader } from "./production.loader";
 
-export const loaders = () => {
-	const app = express();
-	routesLoader(app);
-	expressLoader();
+export const loaders = (app) => {
+	expressLoader(app);
 	mongooseLoader();
-	securityLoader();
+	routesLoader(app);
+	securityLoader(app);
+	productionLoader(app);
 };

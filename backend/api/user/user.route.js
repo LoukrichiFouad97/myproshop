@@ -16,7 +16,7 @@ export const userRoute = () => {
 		.put(userController.updateUser)
 		.delete(userController.deleteUser);
 
-	apiRoute.param("/:userId", userController.getUserById);
+	apiRoute.param("userId", userController.getUserById);
 
 	return apiRoute;
 };

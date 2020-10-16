@@ -1,36 +1,39 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 
-const UserSchema = new mongoose.Schema({
-	name: {
-		type: String,
-		required: [true, "name is required"],
-		trim: true,
-		lowercase: true,
-		minlength: 5,
-		maxlength: 25,
+const UserSchema = new mongoose.Schema(
+	{
+		name: {
+			type: String,
+			required: [true, "name is required"],
+			trim: true,
+			lowercase: true,
+			minlength: 5,
+			maxlength: 25,
+		},
+		email: {
+			type: String,
+			required: [true, "email is required"],
+			unique: true,
+		},
+		password: {
+			type: String,
+			required: [true, "password is required"],
+			minlength: 5,
+			maxlength: 25,
+		},
+		isAdmin: {
+			type: Boolean,
+			default: false,
+		},
 	},
-	email: {
-		type: String,
-		required: [true, "email is required"],
-		unique: true,
-	},
-	password: {
-		type: String,
-		required: [true, "password is required"],
-		minlength: 5,
-		maxlength: 25,
-	},
-	isAdmin: {
-		type: Boolean,
-		default: false,
-	},
-});
+	{ timestamps: true }
+);
 
 // Encrypt password before save
 UserSchema.pre("save", async function (next) {
 	if (!this.isModified("password")) return next();
-	const salt = bcrypt.genSalt(10);
+	const salt = await bcrypt.genSalt(10);
 	this.password = await bcrypt.hash(this.password, salt);
 });
 
