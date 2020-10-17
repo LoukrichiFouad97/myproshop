@@ -8,6 +8,8 @@ export const loaders = (app) => {
 	expressLoader(app);
 	mongooseLoader();
 	routesLoader(app);
-	securityLoader(app);
-	productionLoader(app);
+	if (process.env.NODE_ENV === "prod") {
+		securityLoader(app);
+		productionLoader(app);
+	}
 };

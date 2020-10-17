@@ -1,9 +1,7 @@
-import cors from 'cors'
-import compression from 'compression'
-
+import cors from "cors";
+import compression from "compression";
 
 export const productionLoader = (app) => {
-  app.use(cors())
-  app.use(compression())
-  
+	app.use(cors());
+	app.use(compression());
 };

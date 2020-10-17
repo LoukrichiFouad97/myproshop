@@ -1,6 +1,7 @@
 import express from "express";
 
 import * as userController from "./user.controller";
+import { requireSignin } from "../../middlewares/auth.middleware";
 
 export const userRoute = () => {
 	const apiRoute = express.Router();
@@ -10,6 +11,9 @@ export const userRoute = () => {
 		.route("/")
 		.get(userController.getAllUsers)
 		.post(userController.createUser);
+
+	// @desc 		Require signin to all the below routes
+	apiRoute.use(requireSignin);
 
 	// @route		/api/v1/users/:userId
 	apiRoute

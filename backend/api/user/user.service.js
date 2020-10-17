@@ -7,8 +7,7 @@ export const getAllUsersService = () => {
 };
 
 export const createUserService = (user) => {
-	const _createdUser = User.create(user);
-	return _createdUser;
+	return User.create(user);
 };
 
 export const updateUserService = (user, newUser) => {
@@ -18,11 +17,9 @@ export const updateUserService = (user, newUser) => {
 };
 
 export const deleteUserService = (user) => {
-	const _deletedUser = user.remove();
-	return _deletedUser;
+	return user.remove();
 };
 
 export const getUserByIdService = (userId) => {
-	const _userById = User.findById(userId);
-	return _userById;
+	return User.findById(userId);
 };
