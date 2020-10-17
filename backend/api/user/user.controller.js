@@ -1,12 +1,3 @@
-/**
- * [1] get all the users
- * [2] get a singal user by email
- * [3] create a new user
- * [4] delete a user
- * [5] update a user
- * [6] get a singal user by id
- */
-
 import asyncHandler from "express-async-handler";
 
 import { HttpError } from "../../utils/httpError";

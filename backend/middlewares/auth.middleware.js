@@ -1,0 +1,5 @@
+/**
+ * requireSignin
+ * hasAuthorization
+ * isAdmin
+ */

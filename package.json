@@ -8,7 +8,9 @@
 	"scripts": {
 		"server": "nodemon -r esm backend/server",
 		"client": "cd frontend/ && yarn start ",
-		"dev": "concurrently \"yarn run server\" \"yarn run client\" "
+		"dev": "concurrently \"yarn run server\" \"yarn run client\" ",
+		"test": "export NODE_ENV=test && node -r esm backend/server ",
+		"prod": "export NODE_ENV=prod && node -r esm backend/server"
 	},
 	"dependencies": {
 		"bcryptjs": "^2.4.3",

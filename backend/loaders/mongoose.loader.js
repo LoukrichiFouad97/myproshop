@@ -1,12 +1,14 @@
 import mongoose from "mongoose";
+import { config } from "../config";
+import asyncHabndler from "express-async-handler";
 
-export const mongooseLoader = () => {
-	mongoose.connect("mongodb://localhost/myproshop", {
+export const mongooseLoader = asyncHabndler(async (next) => {
+	const dbConnect = await mongoose.connect(config.db.url, {
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
 		useCreateIndex: true,
-	}).then(() => {
-    console.log('connected to mongodb successfully'.cyan.bold.underline)
-  })
-	console.log("express loader works well");
-};
+	});
+	console.log(`connected to: ${config.db.url}`.cyan.bold.underline);
+
+	if (!dbConnect) return next(new Error());
+});

@@ -1,16 +1,13 @@
 import express from "express";
-
 import { loaders } from "./loaders";
+import { config } from "./config";
 
 const app = express();
 
 // Start up loaders
 loaders(app);
 
-app.get("/", () => {
-	console.log("test success");
-});
-
-app.listen(5000, () => {
-	console.log("server started".yellow.bold);
+const port = config.port;
+app.listen(port, () => {
+	console.log(`Server started at: ${port}`.yellow.bold);
 });
