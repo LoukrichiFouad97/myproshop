@@ -5,11 +5,9 @@ export const authRoute = () => {
 	const apiRoute = express.Router();
 
 	apiRoute.route("/signin").post(authController.signin);
+	apiRoute.route("/signout").get(requireSignin, authController.signout);
 	apiRoute.route("/forgotpassword").post(authController.forgotPassword);
 	apiRoute.route("/resetpassword").put(authController.resetPassword);
-	apiRoute.use(requireSignin);
-	apiRoute.route("/signout").get(authController.signout);
-	apiRoute.route("/profile").get(authController.getProfile);
 
 	return apiRoute;
 };

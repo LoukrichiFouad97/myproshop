@@ -1,51 +1,85 @@
 import asyncHandler from "express-async-handler";
+import { extend } from "lodash";
 
 import { HttpError } from "../../utils/httpError";
-import * as userService from "./user.service";
+import { User } from "./user.model";
 
+// @desc 		Get all the users from database
+// @route 	GET /api/v1/users
+// @access	Private/Admin
 export const getAllUsers = asyncHandler(async (req, res, next) => {
-	const users = await userService.getAllUsersService();
-	_sendHttpResponse(users, 200, res);
+	const users = await User.find();
+	res.status(200).json(users);
 });
 
+// @desc 		Inserts a new user into database
+// @route 	POST /api/v1/users
+// @access	Public
+export const createUser = asyncHandler(async (req, res, next) => {
+	const userIsExist = await User.findOne({ email: req.body.email });
+	if (userIsExist)
+		return next(new HttpError(`${req.body.email} is already registered`, 401));
+
+	const user = await User.create(req.body);
+	if (!user) return next(new HttpError("can't create a new user", 400));
+
+	res.status(201).json({ newUser: user });
+});
+
+// @desc 		Get a user from database
+// @route 	GET /api/v1/users/:userId
+// @access	Private/Admin
 export const getUser = asyncHandler(async (req, res, next) => {
 	const user = req.user;
-	_sendHttpResponse(user, 200, res);
+	res.status(200).json(user);
 });
 
-export const createUser = asyncHandler(async (req, res, next) => {
-	const user = await userService.createUserService(req.body);
-	_handleHttpErrors(user, "can't create user", 400, next);
-	_sendHttpResponse(user, 201, res);
-});
-
+// @desc 		Updates a user in database
+// @route 	PUT /api/v1/users/:userId
+// @access	Private/Admin
 export const updateUser = asyncHandler(async (req, res, next) => {
-	const updatedUser = await userService.updateUserService(req.user, req.body);
-	_handleHttpErrors(updatedUser, "can't update user", 400, next);
-	_sendHttpResponse(updatedUser, 200, res);
+	let updatedUser = req.user;
+	updatedUser = extend(user, req.body);
+	await user.save();
+	res.status(200).json({ updatedUser });
 });
 
+// @desc 		Removes a user from database
+// @route 	DELETE /api/v1/users/:userId
+// @access	Private/Admin
 export const deleteUser = asyncHandler(async (req, res, next) => {
-	const deletedUser = await userService.deleteUserService(req.user);
-	_handleHttpErrors(deletedUser, "can't delete user", 400, next);
-	_sendHttpResponse(deleteUser, 200, res);
+	const deletedUser = await req.user.remove();
+	res.status(200).json(deletedUser);
 });
 
+// @desc 		Get a user profile from database
+// @route 	GET /api/v1/users/profile
+// @access	Private
+export const getUserProfile = asyncHandler(async (req, res, next) => {
+	const user = await User.findById(req.user._id);
+	if (!user) return next(new HttpError(`Profile not found`, 404));
+	res.status(200).json(user);
+});
+
+// @desc 		Updates a user profile
+// @route 	PUT /api/v1/users/profile
+// @access	Private
+export const updateUserProfile = asyncHandler(async (req, res, next) => {
+	const profileId = req.user._id;
+	let profile = await User.findById(profileId);
+	if (!profile) return next(new HttpError(`${profileId} not found`, 404));
+	profile = extend(profile, req.body);
+	const updatedProfile = await profile.save({ validateBeforeSave: false });
+	res.status(200).json(updatedProfile);
+});
+
+// @desc 		Get a user from database
+// @route 	/api/v1/users/:userId
+// @access	Private
 export const getUserById = asyncHandler(async (req, res, next, userId) => {
-	const user = await userService.getUserByIdService(userId);
-	_handleHttpErrors(user, `User with ID ${userId}`, 400, next);
+	const user = await User.findById(userId);
+	if (!user)
+		return next(new HttpError(`user with ID ${userId} not found`, 404));
 	req.user = user;
 	next();
 });
-
-const _sendHttpResponse = (message, statusCode, res) => {
-	res.status(statusCode).json({
-		data: message,
-	});
-};
-
-const _handleHttpErrors = (result, message, statusCode, next) => {
-	if (!result) {
-		return next(new HttpError(message, statusCode));
-	}
-};

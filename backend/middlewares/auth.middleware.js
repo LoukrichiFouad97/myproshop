@@ -34,6 +34,9 @@ export const requireSignin = asyncHandler(async (req, res, next) => {
 		);
 });
 
-export const hasAuthorization = () => {};
-
-export const isAdmin = () => {};
+export const isAdmin = (req, res, next) => {
+	if (!req.user && !req.user.isAdmin) {
+		return next(new HttpError("you must be admin to access this route", 403));
+	}
+	next();
+};
