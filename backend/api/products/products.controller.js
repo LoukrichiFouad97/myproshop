@@ -50,10 +50,43 @@ export const deleteProduct = asyncHandler(async (req, res, next) => {
 // @route     GET /api/v1/products/top
 // @access    Public
 export const getTopProducts = asyncHandler(async (req, res, next) => {
-	const topProducts = await Product.find();
-	if (!topProducts)
-		return next(new HttpError("there is no top products yet", 404));
+	const topProducts = await Product.find().sort("rating").limit(3);
 	res.status(200).json(topProducts);
+});
+
+// @desc      Creates a product review
+// @route     POST /api/v1/products/:productId/review
+// @access		Private
+export const createProductReview = asyncHandler(async (req, res, next) => {
+	const product = req.product;
+
+	const alreadyReviewed = product.reviews.find(
+		(review) => review.user.toString() === req.user._id.toString()
+	);
+
+	if (alreadyReviewed)
+		return next(
+			new HttpError(
+				`Product ${product.name} is already reviewed by ${req.user.name}`
+			)
+		);
+
+	const review = {
+		name: req.user.name,
+		rating: req.body.rating,
+		comment: req.body.comment,
+		user: req.user._id,
+	};
+
+	product.reviews.push(review);
+
+	product.numReviews = product.reviews.length;
+	product.rating = product.reviews.reduce((acc, item) => {
+		return (item.rating + acc) / product.reviews.length;
+	}, 0);
+
+	await product.save();
+	res.status(201).json(review);
 });
 
 // @desc      Get a singal product by its ID

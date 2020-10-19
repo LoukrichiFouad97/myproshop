@@ -1,8 +1,3 @@
-/**
- * requireSignin
- * hasAuthorization
- * isAdmin
- */
 import jwt from "jsonwebtoken";
 import asyncHandler from "express-async-handler";
 
@@ -18,7 +13,6 @@ export const requireSignin = asyncHandler(async (req, res, next) => {
 		req.headers.authorization.startsWith("Bearer")
 	) {
 		token = req.headers.authorization.split(" ")[2];
-		console.log(token);
 		try {
 			const decoded = jwt.verify(token, config.jwt.secret);
 			req.user = await User.findById(decoded.id);

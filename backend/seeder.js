@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 // Models
 import { User } from "./api/user/user.model";
 import { Product } from "./api/products/products.model";
+import { Order } from "./api/order/order.model";
 
 // Data
 import { users } from "./data/users";
@@ -29,6 +30,7 @@ dbConnect();
 
 const importData = async () => {
 	try {
+		await Order.deleteMany();
 		await User.deleteMany();
 		await Product.deleteMany();
 
@@ -49,6 +51,7 @@ const importData = async () => {
 
 const destroyData = async () => {
 	try {
+		await Order.deleteMany();
 		await User.deleteMany();
 		await Product.deleteMany();
 		console.log("Data Destroyed".red.inverse);
