@@ -1,6 +1,14 @@
 import dotenv from "dotenv";
 dotenv.config();
 
-const env = process.env.NODE_ENV;
+export const config = {
+	port: process.env.PORT,
+	db: {
+		url: process.env.DEV_DB_URL,
+	},
+	jwt: {
+		secret: process.env.MYPROSHOP_DEV_JWT_SECRET,
+		expire: process.env.MYPROSHOP_DEV_JWT_EXPIRE,
+	},
+};
 
-export const config = require(`./${env}.js`);

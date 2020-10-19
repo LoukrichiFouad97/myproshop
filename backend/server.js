@@ -2,9 +2,10 @@ import express from "express";
 import { loaders } from "./loaders";
 import { config } from "./config";
 import { errorHandler, notFound } from "./middlewares/error.middleware";
+import dotenv from "dotenv";
 
 const app = express();
-
+dotenv.config();
 // Start up packages and modules
 loaders(app);
 
