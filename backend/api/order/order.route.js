@@ -7,6 +7,7 @@ import { requireSignin, isAdmin } from "../../middlewares/auth.middleware";
 export const orderRoute = () => {
 	const apiRoute = express.Router();
 
+	// All routes below this requireSignin
 	apiRoute.use(requireSignin);
 
 	apiRoute

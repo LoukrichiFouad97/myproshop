@@ -6,6 +6,11 @@ import dotenv from "dotenv";
 
 const app = express();
 dotenv.config();
+
+if (process.env.NODE_ENV === "development") {
+	app.use(morgan("dev"));
+}
+
 // Start up packages and modules
 loaders(app);
 

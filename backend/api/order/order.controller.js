@@ -1,7 +1,38 @@
 import asyncHandler from "express-async-handler";
+import _ from "lodash";
 
+import { Order } from "./order.model";
+
+// @desc			 Create new Order
+// @route      Get /api/v1/orders
+// @access		 Private
 export const addOrderItems = asyncHandler(async (req, res, next) => {
-	res.send("addOrderItems works well ");
+	const {
+		orderItems,
+		shippingAddress,
+		paymentMethod,
+		itemsPrice,
+		taxPrice,
+		shippingPrice,
+		totalPrice,
+	} = req.body;
+	if (orderItems && orderItems.length === 0) {
+		return next(new HttpError("There is no orders", 404));
+	} else {
+		const order = Order.create({
+			orderItems,
+			user: req.user._id,
+			shippingAddress,
+			paymentMethod,
+			itemsPrice,
+			taxPrice,
+			shippingPrice,
+			totalPrice,
+		});
+
+		const createdOrder = await order.save();
+		res.status(201).json(createdOrder);
+	}
 });
 
 export const getOrders = asyncHandler(async (req, res, next) => {
