@@ -1,5 +1,5 @@
 import asyncHandler from "express-async-handler";
-import extend from "lodash";
+import _ from "lodash";
 
 import { Product } from "./products.model";
 import { HttpError } from "../../utils/httpError";
@@ -32,10 +32,10 @@ export const getProduct = asyncHandler(async (req, res, next) => {
 // @route     PUT /api/v1/products/:productId
 // @access    Private/Admin
 export const updateProduct = asyncHandler(async (req, res, next) => {
-	let product = req.product;
-	product = extend(product, req.body);
-	await product.save();
-	res.status(200).json({ updatedProduct: product });
+	let updatedProduct = req.body;
+	updatedProduct = _.extend(req.product, req.body);
+	await updatedProduct.save();
+	res.status(200).json({ updatedProduct });
 });
 
 // @desc      Delete a product

@@ -1,6 +1,6 @@
 import express from "express";
 
-import * as userController from "./user.controller";
+import * as userCtlr from "./user.controller";
 import { requireSignin, isAdmin } from "../../middlewares/auth.middleware";
 
 export const userRoute = () => {
@@ -9,23 +9,23 @@ export const userRoute = () => {
 	// @route		/api/v1/users
 	apiRoute
 		.route("/")
-		.get(requireSignin, isAdmin, userController.getAllUsers)
-		.post(userController.createUser);
+		.get(requireSignin, isAdmin, userCtlr.getAllUsers)
+		.post(userCtlr.createUser);
 
 	// @route 	/api/v1/users/profile
 	apiRoute
 		.route("/profile")
-		.get(requireSignin, userController.getUserProfile)
-		.put(requireSignin, userController.updateUserProfile);
+		.get(requireSignin, userCtlr.getUserProfile)
+		.put(requireSignin, userCtlr.updateUserProfile);
 
 	// @route		/api/v1/users/:userId
 	apiRoute
 		.route("/:userId")
-		.get(requireSignin, isAdmin, userController.getUser)
-		.put(requireSignin, isAdmin, userController.updateUser)
-		.delete(requireSignin, isAdmin, userController.deleteUser);
+		.get(requireSignin, isAdmin, userCtlr.getUser)
+		.put(requireSignin, isAdmin, userCtlr.updateUser)
+		.delete(requireSignin, isAdmin, userCtlr.deleteUser);
 
-	apiRoute.param("userId", userController.getUserById);
+	apiRoute.param("userId", userCtlr.getUserById);
 
 	return apiRoute;
 };

@@ -1,5 +1,5 @@
 import asyncHandler from "express-async-handler";
-import { extend } from "lodash";
+import _ from "lodash";
 
 import { HttpError } from "../../utils/httpError";
 import { User } from "./user.model";
@@ -39,8 +39,8 @@ export const getUser = asyncHandler(async (req, res, next) => {
 // @access	Private/Admin
 export const updateUser = asyncHandler(async (req, res, next) => {
 	let updatedUser = req.user;
-	updatedUser = extend(user, req.body);
-	await user.save();
+	updatedUser = _.extend(updatedUser, req.body);
+	await updatedUser.save();
 	res.status(200).json({ updatedUser });
 });
 
@@ -68,8 +68,10 @@ export const updateUserProfile = asyncHandler(async (req, res, next) => {
 	const profileId = req.user._id;
 	let profile = await User.findById(profileId);
 	if (!profile) return next(new HttpError(`${profileId} not found`, 404));
-	profile = extend(profile, req.body);
+
+	profile = _.extend(profile, req.body);
 	const updatedProfile = await profile.save({ validateBeforeSave: false });
+
 	res.status(200).json(updatedProfile);
 });
 

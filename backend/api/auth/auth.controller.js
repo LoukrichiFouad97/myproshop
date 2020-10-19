@@ -17,7 +17,7 @@ export const signin = asyncHandler(async (req, res, next) => {
 });
 
 export const signout = asyncHandler(async (req, res, next) => {
-	res.cookie("t", "");
+	res.clearCookie("t");
 	res.status(200).json({
 		success: true,
 		msg: "user signed out!",
@@ -45,7 +45,6 @@ const _sendTokenResponse = (user, statusCode, res) => {
 	}
 
 	res.status(statusCode).cookie("t", token, options).json({
-		success: true,
 		token,
 	});
 };

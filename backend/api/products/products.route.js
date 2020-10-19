@@ -1,23 +1,27 @@
 import express from "express";
-import * as productController from "./products.controller";
+
+import * as productCtlr from "./products.controller";
+import { requireSignin, isAdmin } from "../../middlewares/auth.middleware";
 
 export const productsRoute = () => {
 	const apiRoute = express.Router();
 
+	// @route     /api/v1/products/
 	apiRoute
 		.route("/")
-		.get(productController.getProducts)
-		.post(productController.createProduct);
+		.get(productCtlr.getProducts)
+		.post(requireSignin, isAdmin, productCtlr.createProduct);
 
+	// @route     /api/v1/products/:productId
 	apiRoute
 		.route("/:productId")
-		.get(productController.getProduct)
-		.put(productController.updateProduct)
-		.delete(productController.deleteProduct);
+		.get(productCtlr.getProduct)
+		.put(requireSignin, isAdmin, productCtlr.updateProduct)
+		.delete(requireSignin, isAdmin, productCtlr.deleteProduct);
 
-	apiRoute.route("/top").get(productController.getTopProducts);
+	apiRoute.route("/top").get(productCtlr.getTopProducts);
 
-	apiRoute.param("productId", productController.getProductById);
+	apiRoute.param("productId", productCtlr.getProductById);
 
 	return apiRoute;
 };

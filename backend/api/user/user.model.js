@@ -8,8 +8,6 @@ const UserSchema = new mongoose.Schema(
 			required: [true, "name is required"],
 			trim: true,
 			lowercase: true,
-			minlength: 3,
-			maxlength: 25,
 		},
 		email: {
 			type: String,
@@ -24,6 +22,8 @@ const UserSchema = new mongoose.Schema(
 			type: Boolean,
 			default: false,
 		},
+		resetPasswordToken: String,
+		resetPasswordExpire: String,
 	},
 	{ timestamps: true }
 );
