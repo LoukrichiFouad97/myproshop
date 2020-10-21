@@ -1,7 +1,7 @@
 import React from "react";
 import { Col, Row } from "react-bootstrap";
 
-import { products } from "../../products";
+import products from "../../products";
 import { Product } from "../../components/Product/Product";
 
 export const Home = () => {
