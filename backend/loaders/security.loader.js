@@ -16,6 +16,4 @@ export const securityLoader = (app) => {
 			message: "Max Number of requests exceeded, Please try again later",
 		})
 	);
-
-	console.log("hello in security loader in prod env");
 };

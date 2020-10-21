@@ -1,5 +1,5 @@
 import asyncHandler from "express-async-handler";
-import _ from "lodash";
+import extend from "lodash/extend";
 
 import { Order } from "./order.model";
 

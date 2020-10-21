@@ -1,12 +1,28 @@
 import React from "react";
-import "./App.css";
+import { Container } from "react-bootstrap";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
-function App() {
+// Components
+import { Header } from "./components/Header/Header";
+import { Footer } from "./components/Footer/Footer";
+
+// Pages
+import { Home } from "./pages/Home/Home";
+
+const App = () => {
 	return (
-		<div className="App">
-			<h1>Hello from the fronend</h1>
-		</div>
+		<>
+			<Header />
+			<main>
+				<Container>
+					<Router>
+						<Route to="/" component={Home} />
+					</Router>
+				</Container>
+			</main>
+			<Footer />
+		</>
 	);
-}
+};
 
 export default App;

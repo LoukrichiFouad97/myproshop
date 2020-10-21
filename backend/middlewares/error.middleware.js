@@ -1,7 +1,7 @@
+import { HttpError } from "../utils/httpError";
+
 export const notFound = (req, res, next) => {
-	const error = new Error(`Not Found - ${req.originalUrl}`);
-	res.status(404);
-	next(error);
+	return next(new HttpError(`Not Found - ${req.originalUrl}`, 404));
 };
 
 export const errorHandler = (err, req, res, next) => {

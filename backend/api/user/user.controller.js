@@ -1,5 +1,5 @@
 import asyncHandler from "express-async-handler";
-import _ from "lodash";
+import extend from "lodash/extend";
 
 import { HttpError } from "../../utils/httpError";
 import { User } from "./user.model";
@@ -39,9 +39,9 @@ export const getUser = asyncHandler(async (req, res, next) => {
 // @access	Private/Admin
 export const updateUser = asyncHandler(async (req, res, next) => {
 	let updatedUser = req.user;
-	updatedUser = _.extend(updatedUser, req.body);
+	updatedUser = extend(updatedUser, req.body);
 	await updatedUser.save();
-	res.status(200).json({ updatedUser });
+	res.status(200).json(updatedUser);
 });
 
 // @desc 		Removes a user from database
@@ -69,7 +69,7 @@ export const updateUserProfile = asyncHandler(async (req, res, next) => {
 	let profile = await User.findById(profileId);
 	if (!profile) return next(new HttpError(`${profileId} not found`, 404));
 
-	profile = _.extend(profile, req.body);
+	profile = extend(profile, req.body);
 	const updatedProfile = await profile.save({ validateBeforeSave: false });
 
 	res.status(200).json(updatedProfile);
