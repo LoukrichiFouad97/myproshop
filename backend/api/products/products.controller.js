@@ -9,7 +9,7 @@ import { HttpError } from "../../utils/httpError";
 // @access    Public
 export const getProducts = asyncHandler(async (req, res, next) => {
 	const products = await Product.find();
-	res.status(200).json({ products });
+	res.status(200).json(products);
 });
 
 // @desc      Create a new Product
@@ -18,14 +18,14 @@ export const getProducts = asyncHandler(async (req, res, next) => {
 export const createProduct = asyncHandler(async (req, res, next) => {
 	const product = await Product.create(req.body);
 	if (!product) return next(new HttpError("can't create a product", 400));
-	res.status(201).json({ product });
+	res.status(201).json(product);
 });
 
 // @desc      Get a specific product
 // @route     GET /api/v1/products/:productId
 // @access    Public
 export const getProduct = asyncHandler(async (req, res, next) => {
-	res.status(200).json({ product: req.product });
+	res.status(200).json(req.product);
 });
 
 // @desc      Update a product

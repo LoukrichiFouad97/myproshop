@@ -10,7 +10,9 @@
 		"client": "cd frontend/ && yarn start ",
 		"dev": "concurrently \"yarn run server\" \"yarn run client\" ",
 		"test": "export NODE_ENV=test && node -r esm backend/server ",
-		"prod": "export NODE_ENV=prod && node -r esm backend/server"
+		"prod": "export NODE_ENV=prod && node -r esm backend/server",
+		"data:import": "node -r esm backend/seeder",
+		"data:destroy": "node -r esm backend/seeder -d"
 	},
 	"dependencies": {
 		"@sendgrid/mail": "^7.3.0",
