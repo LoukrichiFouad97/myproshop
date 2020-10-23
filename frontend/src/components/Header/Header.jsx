@@ -19,7 +19,7 @@ export const Header = () => {
 						</LinkContainer>
 						<LinkContainer to="signin">
 							<Nav.Link>
-								<i className="fas fa-user"></i>Sign in
+								<i className="fas fa-user"></i> Sign in
 							</Nav.Link>
 						</LinkContainer>
 					</Nav>

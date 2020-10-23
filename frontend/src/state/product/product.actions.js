@@ -17,7 +17,7 @@ export const listProducts = () => async (dispatch) => {
 	}
 };
 
-export const productDetails = (productId) => async (dispatch) => {
+export const listProductDetails = (productId) => async (dispatch) => {
 	try {
 		dispatch({ type: productConst.PRODUCT_DETAILS_REQUEST });
 		const { data } = await Axios.get(`/api/v1/products/${productId}`);

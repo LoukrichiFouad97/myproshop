@@ -9,16 +9,18 @@ import { Footer } from "./components/Footer/Footer";
 // Pages
 import { Home } from "./pages/Home/Home";
 import { Product } from "./pages/Product/Product";
+import { Cart } from "./pages/Cart/Cart";
 
 const App = () => {
 	return (
 		<Router>
 			<Header />
-			<main>
+			<main className="py-3">
 				<Container>
 					<Switch>
 						<Route exact path="/" component={Home} />
 						<Route exact path="/product/:productId" component={Product} />
+						<Route exact path="/cart/:productId?" component={Cart} />
 					</Switch>
 				</Container>
 			</main>
