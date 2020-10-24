@@ -10,6 +10,8 @@ import { Footer } from "./components/Footer/Footer";
 import { Home } from "./pages/Home/Home";
 import { Product } from "./pages/Product/Product";
 import { Cart } from "./pages/Cart/Cart";
+import { Signin } from "./pages/Signin/Signin";
+import { Signup } from "./pages/Signup/Signup";
 
 const App = () => {
 	return (
@@ -21,6 +23,8 @@ const App = () => {
 						<Route exact path="/" component={Home} />
 						<Route exact path="/product/:productId" component={Product} />
 						<Route exact path="/cart/:productId?" component={Cart} />
+						<Route exact path="/signin" component={Signin} />
+						<Route exact path="/signup" component={Signup} />
 					</Switch>
 				</Container>
 			</main>

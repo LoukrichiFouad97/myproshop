@@ -8,12 +8,25 @@ import { config } from "../../config";
 export const signin = asyncHandler(async (req, res, next) => {
 	const { email, password } = req.body;
 	const user = await User.findOne({ email });
-	if (!user) return next(new HttpError(`${email} is not registered`, 404));
 
-	const isMatched = await user.matchPassword(password);
-	if (!isMatched) return next("wrong password", 401);
+	if (user && (await user.matchPassword(password))) {
+		res.status(200).json({
+			_id: user._id,
+			name: user.name,
+			email: user.email,
+			isAdmin: user.isAdmin,
+			token: getJwtToken(user._id),
+		});
+	} else {
+		return next(new HttpError("Invalid email or password", 401));
+	}
 
-	_sendTokenResponse(user, 200, res);
+	// if (!user) return next(new HttpError(`${email} is not registered`, 404));
+
+	// const isMatched = await user.matchPassword(password);
+	// if (!isMatched) return next("wrong password", 401);
+
+	// _sendTokenResponse(user, 200, res);
 });
 
 export const signout = asyncHandler(async (req, res, next) => {

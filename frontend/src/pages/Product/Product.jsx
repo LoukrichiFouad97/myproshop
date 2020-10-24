@@ -23,7 +23,7 @@ export const Product = ({ history, match }) => {
 
 	useEffect(() => {
 		dispatch(listProductDetails(match.params.productId));
-	}, [dispatch]);
+	}, [dispatch, match.params.productId]);
 
 	const addToCartHandler = () => {
 		history.push(`/cart/${match.params.productId}?qty=${qty}`);
