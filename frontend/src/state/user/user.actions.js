@@ -1,5 +1,4 @@
 import axios from "axios";
-import Cookie from "js-cookie";
 
 import * as userConst from "./user.constants";
 
@@ -21,9 +20,8 @@ export const signin = (email, password) => async (dispatch) => {
 			config
 		);
 
-		Cookie.set("user", JSON.stringify(data));
 		dispatch({ type: userConst.USER_SIGNIN_SUCCESS, payload: data });
-		// localStorage.setItem("userInfo", JSON.stringify(data));
+		localStorage.setItem("userInfo", JSON.stringify(data));
 	} catch (error) {
 		dispatch({
 			type: userConst.USER_SIGNIN_FAIL,
@@ -61,6 +59,40 @@ export const signup = (name, email, password) => async (dispatch) => {
 	} catch (error) {
 		dispatch({
 			type: userConst.USER_SIGNUP_FAIL,
+			payload:
+				error.response && error.response.data.message
+					? error.response.data.message
+					: error.message,
+		});
+	}
+};
+
+export const signout = () => (dispatch) => {
+	localStorage.removeItem("userInfo");
+	localStorage.setItem("userInfo", "");
+	dispatch({ type: userConst.USER_SIGNOUT });
+};
+
+export const getUserDetails = (id) => async (dispatch, getState) => {
+	try {
+		dispatch({ type: userConst.USER_DETAILS_REQUEST });
+
+		// Get the logged in user in order to get his token
+		const {
+			userSignin: { userInfo },
+		} = getState();
+
+		const options = {
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${userInfo.token}`,
+		};
+
+		const { data } = await axios.get(`/api/v1/users/${id}`, options);
+
+		dispatch({ type: userConst.USER_DETAILS_SUCCESS, payload: data });
+	} catch (error) {
+		dispatch({
+			type: userConst.USER_DETAILS_FAIL,
 			payload:
 				error.response && error.response.data.message
 					? error.response.data.message

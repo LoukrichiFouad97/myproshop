@@ -12,16 +12,18 @@ export const userRoute = () => {
 		.get(requireSignin, isAdmin, userCtlr.getAllUsers)
 		.post(userCtlr.createUser);
 
+	apiRoute.use(requireSignin);
 	apiRoute
 		.route("/profile")
-		.get(requireSignin, userCtlr.getUserProfile)
-		.put(requireSignin, userCtlr.updateUserProfile);
+		.get(userCtlr.getUserProfile)
+		.put(userCtlr.updateUserProfile);
 
+	apiRoute.use(isAdmin);
 	apiRoute
 		.route("/:userId")
-		.get(requireSignin, isAdmin, userCtlr.getUser)
-		.put(requireSignin, isAdmin, userCtlr.updateUser)
-		.delete(requireSignin, isAdmin, userCtlr.deleteUser);
+		.get(userCtlr.getUser)
+		.put(userCtlr.updateUser)
+		.delete(userCtlr.deleteUser);
 
 	apiRoute.param("userId", userCtlr.getUserById);
 

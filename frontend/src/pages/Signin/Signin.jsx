@@ -59,11 +59,11 @@ export const Signin = ({ location, history }) => {
 					</Button>
 				</Form.Group>
 			</Form>
-			<Row>
+			<Row className="py-3">
 				<Col>
 					New Customer?{" "}
 					<Link to={redirect ? `/signup?redirect=${redirect}` : "/signup"}>
-						Register
+						Sign up
 					</Link>
 				</Col>
 			</Row>

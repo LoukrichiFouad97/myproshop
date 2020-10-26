@@ -12,6 +12,7 @@ import { Product } from "./pages/Product/Product";
 import { Cart } from "./pages/Cart/Cart";
 import { Signin } from "./pages/Signin/Signin";
 import { Signup } from "./pages/Signup/Signup";
+import { Profile } from "./pages/Profile/Profile";
 
 const App = () => {
 	return (
@@ -25,6 +26,7 @@ const App = () => {
 						<Route exact path="/cart/:productId?" component={Cart} />
 						<Route exact path="/signin" component={Signin} />
 						<Route exact path="/signup" component={Signup} />
+						<Route exact path="/profile" component={Profile} />
 					</Switch>
 				</Container>
 			</main>

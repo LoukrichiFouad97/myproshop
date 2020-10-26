@@ -1,7 +1,7 @@
 import * as userConst from "./user.constants";
 
 export const userSigninReducer = (state = {}, action) => {
-	switch (action.payload) {
+	switch (action.type) {
 		case userConst.USER_SIGNIN_REQUEST:
 			return { loading: true };
 		case userConst.USER_SIGNIN_SUCCESS:
@@ -22,6 +22,19 @@ export const userSignupReducer = (state = {}, action) => {
 		case userConst.USER_SIGNUP_SUCCESS:
 			return { loading: false, userInfo: action.payload };
 		case userConst.USER_SIGNUP_FAIL:
+			return { loading: false, error: action.payload };
+		default:
+			return state;
+	}
+};
+
+export const userDetailsReducer = (state = { user: {} }, action) => {
+	switch (action.payload) {
+		case userConst.USER_DETAILS_REQUEST:
+			return { ...state, loading: true };
+		case userConst.USER_DETAILS_SUCCESS:
+			return { loading: false, user: action.payload };
+		case userConst.USER_DETAILS_FAIL:
 			return { loading: false, error: action.payload };
 		default:
 			return state;
