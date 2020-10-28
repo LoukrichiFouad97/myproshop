@@ -12,7 +12,7 @@ export const signin = (email, password) => async (dispatch) => {
 		};
 
 		const { data } = await axios.post(
-			"/api/v1/auth/signin",
+			"/api/auth/signin",
 			{
 				email,
 				password,
@@ -43,7 +43,7 @@ export const signup = (name, email, password) => async (dispatch) => {
 		};
 
 		const { data } = await axios.post(
-			"/api/v1/users",
+			"/api/users",
 			{
 				name,
 				email,
@@ -82,12 +82,13 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
 			userSignin: { userInfo },
 		} = getState();
 
-		const options = {
-			"Content-Type": "application/json",
-			Authorization: `Bearer ${userInfo.token}`,
+		const config = {
+			headers: {
+				authorization: `Bearer ${userInfo.token}`,
+			},
 		};
 
-		const { data } = await axios.get(`/api/v1/users/${id}`, options);
+		const { data } = await axios.get(`/api/users/${id}`, config);
 
 		dispatch({ type: userConst.USER_DETAILS_SUCCESS, payload: data });
 	} catch (error) {

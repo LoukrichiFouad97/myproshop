@@ -7,25 +7,20 @@ import { requireSignin, isAdmin } from "../../middlewares/auth.middleware";
 export const userRoute = () => {
 	const apiRoute = express.Router();
 
-	apiRoute
-		.route("/")
-		.get(requireSignin, isAdmin, userCtlr.getAllUsers)
-		.post(userCtlr.createUser);
+	apiRoute.route("/").get(userCtlr.getAllUsers).post(userCtlr.createUser);
 
-	apiRoute.use(requireSignin);
+	apiRoute.route("/login").post(userCtlr.authUser);
+
 	apiRoute
 		.route("/profile")
 		.get(userCtlr.getUserProfile)
 		.put(userCtlr.updateUserProfile);
 
-	apiRoute.use(isAdmin);
 	apiRoute
 		.route("/:userId")
-		.get(userCtlr.getUser)
+		.get(userCtlr.getUserById)
 		.put(userCtlr.updateUser)
 		.delete(userCtlr.deleteUser);
-
-	apiRoute.param("userId", userCtlr.getUserById);
 
 	return apiRoute;
 };

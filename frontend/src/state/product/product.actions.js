@@ -4,7 +4,7 @@ import * as productConst from "./product.constants";
 export const listProducts = () => async (dispatch) => {
 	try {
 		dispatch({ type: productConst.PRODUCT_LIST_REQUEST });
-		const { data } = await Axios.get("/api/v1/products");
+		const { data } = await Axios.get("/api/products");
 		dispatch({ type: productConst.PRODUCT_LIST_SUCCESS, payload: data });
 	} catch (err) {
 		dispatch({
@@ -20,7 +20,7 @@ export const listProducts = () => async (dispatch) => {
 export const listProductDetails = (productId) => async (dispatch) => {
 	try {
 		dispatch({ type: productConst.PRODUCT_DETAILS_REQUEST });
-		const { data } = await Axios.get(`/api/v1/products/${productId}`);
+		const { data } = await Axios.get(`/api/products/${productId}`);
 		dispatch({ type: productConst.PRODUCT_DETAILS_SUCCESS, payload: data });
 	} catch (err) {
 		dispatch({
