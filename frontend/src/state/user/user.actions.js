@@ -2,9 +2,10 @@ import axios from "axios";
 
 import * as userConst from "./user.constants";
 
-export const signin = (email, password) => async (dispatch) => {
+export const login = (email, password) => async (dispatch) => {
 	try {
-		dispatch({ type: userConst.USER_SIGNIN_REQUEST });
+		dispatch({ type: userConst.USER_LOGIN_REQUEST });
+
 		const config = {
 			headers: {
 				"Content-Type": "application/json",
@@ -12,7 +13,7 @@ export const signin = (email, password) => async (dispatch) => {
 		};
 
 		const { data } = await axios.post(
-			"/api/auth/signin",
+			"/api/users/login",
 			{
 				email,
 				password,
@@ -20,11 +21,12 @@ export const signin = (email, password) => async (dispatch) => {
 			config
 		);
 
-		dispatch({ type: userConst.USER_SIGNIN_SUCCESS, payload: data });
+		dispatch({ type: userConst.USER_LOGIN_SUCCESS, payload: data });
+
 		localStorage.setItem("userInfo", JSON.stringify(data));
 	} catch (error) {
 		dispatch({
-			type: userConst.USER_SIGNIN_FAIL,
+			type: userConst.USER_LOGIN_FAIL,
 			payload:
 				error.response && error.response.data.message
 					? error.response.data.message
@@ -33,9 +35,9 @@ export const signin = (email, password) => async (dispatch) => {
 	}
 };
 
-export const signup = (name, email, password) => async (dispatch) => {
+export const register = (name, email, password) => async (dispatch) => {
 	try {
-		dispatch({ type: userConst.USER_SIGNUP_REQUEST });
+		dispatch({ type: userConst.USER_REGISTER_REQUEST });
 		const config = {
 			headers: {
 				"Content-Type": "application-json",
@@ -52,13 +54,13 @@ export const signup = (name, email, password) => async (dispatch) => {
 			config
 		);
 
-		dispatch({ type: userConst.USER_SIGNUP_SUCCESS, payload: data });
-		dispatch({ type: userConst.USER_SIGNIN_SUCCESS, payload: data });
+		dispatch({ type: userConst.USER_REGISTER_SUCCESS, payload: data });
+		dispatch({ type: userConst.USER_LOGIN_SUCCESS, payload: data });
 
 		localStorage.setItem("userInfo", JSON.stringify(data));
 	} catch (error) {
 		dispatch({
-			type: userConst.USER_SIGNUP_FAIL,
+			type: userConst.USER_REGISTER_FAIL,
 			payload:
 				error.response && error.response.data.message
 					? error.response.data.message
@@ -67,10 +69,10 @@ export const signup = (name, email, password) => async (dispatch) => {
 	}
 };
 
-export const signout = () => (dispatch) => {
+export const logout = () => (dispatch) => {
 	localStorage.removeItem("userInfo");
-	localStorage.setItem("userInfo", "");
-	dispatch({ type: userConst.USER_SIGNOUT });
+	// localStorage.setItem("userInfo", "");
+	dispatch({ type: userConst.USER_LOGOUT });
 };
 
 export const getUserDetails = (id) => async (dispatch, getState) => {
@@ -79,7 +81,7 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
 
 		// Get the logged in user in order to get his token
 		const {
-			userSignin: { userInfo },
+			userLogin: { userInfo },
 		} = getState();
 
 		const config = {

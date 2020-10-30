@@ -3,14 +3,14 @@ import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 
-import { signout } from "../../state/user/user.actions";
+import { logout } from "../../state/user/user.actions";
 
 export const Header = () => {
 	const dispatch = useDispatch();
-	const { userInfo } = useSelector((state) => state.userSignin);
+	const { userInfo } = useSelector((state) => state.userLogin);
 
 	const signoutHandler = () => {
-		dispatch(signout());
+		dispatch(logout());
 		console.log("logout");
 	};
 
@@ -34,11 +34,11 @@ export const Header = () => {
 									<NavDropdown.Item>profile</NavDropdown.Item>
 								</LinkContainer>
 								<NavDropdown.Item onClick={signoutHandler}>
-									Signout
+									logout
 								</NavDropdown.Item>
 							</NavDropdown>
 						) : (
-							<LinkContainer to="signin">
+							<LinkContainer to="login">
 								<Nav.Link>
 									<i className="fas fa-user"></i> Sign in
 								</Nav.Link>

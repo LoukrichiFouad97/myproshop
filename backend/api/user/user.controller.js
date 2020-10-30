@@ -24,9 +24,9 @@ export const authUser = asyncHandler(async (req, res, next) => {
 		return next(new HttpError(`invalid user data`, 400));
 	}
 
-	user = pick(user, ["name", "email", "isAdmin"]);
+	user = pick(user, ["_id", "name", "email", "isAdmin"]);
 
-	res.status(201).json({ ...user, token: getJwtToken(user) });
+	res.status(201).json({ ...user, token: getJwtToken(user._id) });
 });
 
 // @desc 		Inserts a new user into database
@@ -37,9 +37,9 @@ export const createUser = asyncHandler(async (req, res, next) => {
 	if (userExists) return next(new HttpError("User already exists", 400));
 
 	let user = await User.create(req.body);
-	user = pick(user, ["name", "email", "isAdmin"]);
+	user = pick(user, ["_id", "name", "email", "isAdmin"]);
 
-	res.status(201).json({ ...user, token: getJwtToken(user) });
+	res.status(201).json({ ...user, token: getJwtToken(user._id) });
 });
 
 // @desc 		Get a user By its id
@@ -60,6 +60,7 @@ export const updateUser = asyncHandler(async (req, res, next) => {
 	if (!user) return next(new HttpError("User not found", 404));
 
 	user = extend(user, req.body);
+	await user.save();
 
 	res.status(200).json(user);
 });
@@ -72,13 +73,20 @@ export const deleteUser = asyncHandler(async (req, res, next) => {
 	if (!user) return next(new HttpError("User not found", 404));
 
 	user = user.remove();
+
 	res.status(200).json({ message: "User removed!" });
 });
 
 // @desc 		Get a user profile from database
 // @route 	GET /api/v1/users/profile
 // @access	Private
-export const getUserProfile = asyncHandler(async (req, res, next) => {});
+export const getUserProfile = asyncHandler(async (req, res, next) => {
+	let user = await User.findById(req.user._id);
+	if (!user) return next(new HttpError("user not found", 404));
+
+	user = pick(user, ["_id", "name", "email", "isAdmin"]);
+	res.status(200).json(user);
+});
 
 // @desc 		Updates a user profile
 // @route 	PUT /api/v1/users/profile
@@ -89,7 +97,7 @@ export const updateUserProfile = asyncHandler(async (req, res, next) => {
 	if (!profile) return next(new HttpError(`${profileId} not found`, 404));
 
 	profile = extend(profile, req.body);
-	const updatedProfile = await profile.save({ validateBeforeSave: false });
+	const updatedProfile = await profile.save();
 
 	res.status(200).json(updatedProfile);
 });

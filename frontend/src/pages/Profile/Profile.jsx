@@ -21,14 +21,16 @@ export const Profile = ({ history }) => {
 	// Get user details
 	const userDetails = useSelector((state) => state.userDetails);
 	const { loading, error, user } = userDetails;
+	console.log(user);
+
 
 	// Get the logged in user
-	const userSignin = useSelector((state) => state.userSignin);
-	const { userInfo } = userSignin;
+	const userLogin = useSelector((state) => state.userLogin);
+	const { userInfo } = userLogin;
 
 	useEffect(() => {
 		if (!userInfo) {
-			history.push("/signin");
+			history.push("/login");
 		} else {
 			if (!user.name) {
 				dispatch(getUserDetails("profile"));
@@ -44,7 +46,7 @@ export const Profile = ({ history }) => {
 		if (password !== confirmPassword) {
 			setMessage("Passwords do not match");
 		} else {
-			// dispatch(getUserDetails());
+			// dispatch update user details
 		}
 	};
 

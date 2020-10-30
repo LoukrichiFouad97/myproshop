@@ -6,9 +6,9 @@ import { Link } from "react-router-dom";
 import { FormContainer } from "../../components/FormContainer/FormContainer";
 import { Message } from "../../components/Message/Message";
 import { Loader } from "../../components/Loader/Loader";
-import { signup } from "../../state/user/user.actions";
+import { register } from "../../state/user/user.actions";
 
-export const Signup = ({ location, history }) => {
+export const Register = ({ location, history }) => {
 	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
@@ -17,8 +17,8 @@ export const Signup = ({ location, history }) => {
 
 	const dispatch = useDispatch();
 
-	const userSignup = useSelector((state) => state.userSignup);
-	const { loading, error, userInfo } = userSignup;
+	const userRegister = useSelector((state) => state.userRegister);
+	const { loading, error, userInfo } = userRegister;
 
 	const redirect = location.search ? location.search.split("=")[1] : "/";
 
@@ -33,7 +33,7 @@ export const Signup = ({ location, history }) => {
 		if (password !== confirmPassword) {
 			setMessage("Passwords do not match");
 		} else {
-			dispatch(signup(name, email, password));
+			dispatch(register(name, email, password));
 		}
 	};
 

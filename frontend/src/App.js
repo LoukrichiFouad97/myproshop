@@ -10,8 +10,8 @@ import { Footer } from "./components/Footer/Footer";
 import { Home } from "./pages/Home/Home";
 import { Product } from "./pages/Product/Product";
 import { Cart } from "./pages/Cart/Cart";
-import { Signin } from "./pages/Signin/Signin";
-import { Signup } from "./pages/Signup/Signup";
+import { Login } from "./pages/Signin/Signin";
+import { Register } from "./pages/Signup/Signup";
 import { Profile } from "./pages/Profile/Profile";
 
 const App = () => {
@@ -24,8 +24,8 @@ const App = () => {
 						<Route exact path="/" component={Home} />
 						<Route exact path="/product/:productId" component={Product} />
 						<Route exact path="/cart/:productId?" component={Cart} />
-						<Route exact path="/signin" component={Signin} />
-						<Route exact path="/signup" component={Signup} />
+						<Route exact path="/login" component={Login} />
+						<Route exact path="/register" component={Register} />
 						<Route exact path="/profile" component={Profile} />
 					</Switch>
 				</Container>

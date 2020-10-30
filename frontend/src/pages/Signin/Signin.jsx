@@ -6,17 +6,17 @@ import { Link } from "react-router-dom";
 import { FormContainer } from "../../components/FormContainer/FormContainer";
 import { Message } from "../../components/Message/Message";
 import { Loader } from "../../components/Loader/Loader";
-import { signin } from "../../state/user/user.actions";
+import { login } from "../../state/user/user.actions";
 
-export const Signin = ({ location, history }) => {
+export const Login = ({ location, history }) => {
 	// Local state
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
 	// Global State
 	const dispatch = useDispatch();
-	const userSignin = useSelector((state) => state.userSignin);
-	const { loading, error, userInfo } = userSignin;
+	const userLogin = useSelector((state) => state.userLogin);
+	const { loading, error, userInfo } = userLogin;
 
 	const redirect = location.search ? location.search.split("=")[1] : "/";
 
@@ -28,12 +28,12 @@ export const Signin = ({ location, history }) => {
 
 	const submitHandler = (e) => {
 		e.preventDefault();
-		dispatch(signin(email, password));
+		dispatch(login(email, password));
 	};
 
 	return (
 		<FormContainer>
-			<h1>Sign in</h1>
+			<h1>Log in</h1>
 			{error && <Message variant="danger">{error}</Message>}
 			{loading && <Loader />}
 			<Form onSubmit={submitHandler}>
@@ -55,15 +55,15 @@ export const Signin = ({ location, history }) => {
 				</Form.Group>
 				<Form.Group>
 					<Button variant="dark" type="submit">
-						Sign in
+						Login
 					</Button>
 				</Form.Group>
 			</Form>
 			<Row className="py-3">
 				<Col>
 					New Customer?{" "}
-					<Link to={redirect ? `/signup?redirect=${redirect}` : "/signup"}>
-						Sign up
+					<Link to={redirect ? `/register?redirect=${redirect}` : "/register"}>
+						Register
 					</Link>
 				</Col>
 			</Row>

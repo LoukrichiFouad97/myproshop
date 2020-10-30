@@ -16,7 +16,7 @@ const userInfoFromStorage = localStorage.getItem("userInfo")
 
 const INITIAL_STATE = {
 	cart: { cartItems: cartItemsFromStorage },
-	userSignin: { userInfo: userInfoFromStorage },
+	userLogin: { userInfo: userInfoFromStorage },
 };
 
 export const store = createStore(
