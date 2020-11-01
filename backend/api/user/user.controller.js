@@ -93,11 +93,28 @@ export const getUserProfile = asyncHandler(async (req, res, next) => {
 // @access	Private
 export const updateUserProfile = asyncHandler(async (req, res, next) => {
 	const profileId = req.user._id;
-	let profile = await User.findById(profileId);
-	if (!profile) return next(new HttpError(`${profileId} not found`, 404));
+	let user = await User.findById(profileId);
+	if (!user) return next(new HttpError(`${profileId} not found`, 404));
 
-	profile = extend(profile, req.body);
-	const updatedProfile = await profile.save();
+	user.name = req.body.name || user.name;
+	user.email = req.body.email || user.email;
+
+	if (req.body.password) {
+		user.password = req.body.password;
+	}
+
+	const updatedUser = await user.save();
+
+	res.json({
+		_id: updatedUser._id,
+		name: updatedUser.name,
+		email: updatedUser.email,
+		isAdmin: updatedUser.isAdmin,
+		token: getJwtToken(updatedUser._id),
+	});
+
+	// profile = extend(profile, req.body);
+	// const updatedProfile = await profile.save();
 
 	res.status(200).json(updatedProfile);
 });

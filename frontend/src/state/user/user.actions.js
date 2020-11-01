@@ -103,3 +103,33 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
 		});
 	}
 };
+
+export const updateUserDetails = (user) => async (dispatch, getState) => {
+	try {
+		dispatch({ type: userConst.USER_UPDATE_PROFILE_REQUEST });
+
+		// Get a token from the logged in user
+		const {
+			userLogin: { userInfo },
+		} = getState();
+
+		const options = {
+			headers: {
+				"Content-Type": "application/json",
+				authorization: `Bearer ${userInfo.token}`,
+			},
+		};
+
+		const { data } = await axios.put("/api/users/profile", user, options);
+
+		dispatch({ type: userConst.USER_UPDATE_PROFILE_SUCCESS, payload: data });
+	} catch (error) {
+		dispatch({
+			type: userConst.USER_UPDATE_PROFILE_FAIL,
+			payload:
+				error.response && error.response.data.message
+					? error.response.data.message
+					: error.message,
+		});
+	}
+};

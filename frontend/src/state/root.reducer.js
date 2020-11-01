@@ -11,4 +11,5 @@ export const rootReducer = combineReducers({
 	userLogin: userReducer.userLoginReducer,
 	userRegister: userReducer.userRegisterReducer,
 	userDetails: userReducer.userDetailsReducer,
+	userUpdateProfile: userReducer.userUpdateProfileReducer,
 });

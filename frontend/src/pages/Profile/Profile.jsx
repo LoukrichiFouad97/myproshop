@@ -7,7 +7,10 @@ import { Link } from "react-router-dom";
 import { Message } from "../../components/Message/Message";
 import { Loader } from "../../components/Loader/Loader";
 
-import { getUserDetails } from "../../state/user/user.actions";
+import {
+	getUserDetails,
+	updateUserDetails,
+} from "../../state/user/user.actions";
 
 export const Profile = ({ history }) => {
 	const [name, setName] = useState("");
@@ -21,12 +24,13 @@ export const Profile = ({ history }) => {
 	// Get user details
 	const userDetails = useSelector((state) => state.userDetails);
 	const { loading, error, user } = userDetails;
-	console.log(user);
-
 
 	// Get the logged in user
 	const userLogin = useSelector((state) => state.userLogin);
 	const { userInfo } = userLogin;
+
+	const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
+	const { success } = userUpdateProfile;
 
 	useEffect(() => {
 		if (!userInfo) {
@@ -45,9 +49,9 @@ export const Profile = ({ history }) => {
 		e.preventDefault();
 		if (password !== confirmPassword) {
 			setMessage("Passwords do not match");
-		} else {
-			// dispatch update user details
+			return;
 		}
+		dispatch(updateUserDetails({ id: user._id, name, email, password }));
 	};
 
 	return (
@@ -56,6 +60,7 @@ export const Profile = ({ history }) => {
 				<h2>Update Profile</h2>
 				{message && <Message variant="danger">{message}</Message>}
 				{error && <Message variant="danger">{error}</Message>}
+				{success && <Message variant="success">Profile Updated</Message>}
 				{loading && <Loader />}
 				<Form onSubmit={submitHandler}>
 					<Form.Group controlId="name">
