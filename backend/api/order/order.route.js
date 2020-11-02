@@ -10,10 +10,7 @@ export const orderRoute = () => {
 	// All routes below this requireSignin
 	apiRoute.use(requireSignin);
 
-	apiRoute
-		.route("/")
-		.get(orderCtrl.getOrders)
-		.post(isAdmin, orderCtrl.addOrderItems);
+	apiRoute.route("/").get(orderCtrl.getOrders).post(orderCtrl.addOrderItems);
 
 	apiRoute.route("/myorders").get(orderCtrl.getMyOrders);
 

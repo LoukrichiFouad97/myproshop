@@ -13,6 +13,9 @@ import { Cart } from "./pages/Cart/Cart";
 import { Login } from "./pages/Signin/Signin";
 import { Register } from "./pages/Signup/Signup";
 import { Profile } from "./pages/Profile/Profile";
+import { Shipping } from "./pages/Shipping/Shipping";
+import { Payment } from "./pages/Payment/Payment";
+import { Placeorder } from "./pages/Placeorder/Placeorder";
 
 const App = () => {
 	return (
@@ -27,6 +30,9 @@ const App = () => {
 						<Route exact path="/login" component={Login} />
 						<Route exact path="/register" component={Register} />
 						<Route exact path="/profile" component={Profile} />
+						<Route exact path="/shipping" component={Shipping} />
+						<Route exact path="/payment" component={Payment} />
+						<Route exact path="/placeorder" component={Placeorder} />
 					</Switch>
 				</Container>
 			</main>

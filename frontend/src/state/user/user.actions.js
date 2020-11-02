@@ -133,3 +133,4 @@ export const updateUserDetails = (user) => async (dispatch, getState) => {
 		});
 	}
 };
+

@@ -46,7 +46,7 @@ export const Cart = ({ match, location, history }) => {
 						<Link to="/"> Go Back</Link>
 					</Message>
 				) : (
-					<ListGroup variant='flush'>
+					<ListGroup variant="flush">
 						{cartItems.map((item) => (
 							<ListGroup.Item key={item.productId}>
 								<Row>
@@ -62,9 +62,7 @@ export const Cart = ({ match, location, history }) => {
 											as="select"
 											value={item.qty}
 											onChange={(e) =>
-												dispatch(
-													addToCart(item._id, Number(e.target.value))
-												)
+												dispatch(addToCart(item._id, Number(e.target.value)))
 											}
 										>
 											{[...Array(item.countInStock).keys()].map((item) => (
