@@ -3,7 +3,7 @@ import express from "express";
 import * as orderCtrl from "./order.controller";
 import { requireSignin, isAdmin } from "../../middlewares/auth.middleware";
 
-// @route     /api/v1/orders
+// @route     /api/orders
 export const orderRoute = () => {
 	const apiRoute = express.Router();
 

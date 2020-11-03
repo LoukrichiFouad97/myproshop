@@ -8,19 +8,9 @@ import { Message } from "../../components/Message/Message";
 import { createOrder } from "../../state/order/order.actions";
 
 export const Placeorder = ({ history }) => {
-	const cart = useSelector((state) => state.cart);
-	const { shippingAddress } = cart;
-
-	const orderCreate = useSelector((state) => state.orderCreate);
-	const { error, success, order } = orderCreate;
-
-	useEffect(() => {
-		if (success) {
-			history.push(`/orders/${order._id}`);
-		}
-	}, [history, success]);
-
 	const dispatch = useDispatch();
+
+	const cart = useSelector((state) => state.cart);
 
 	//   Calculate prices
 	const addDecimals = (num) => {
@@ -30,28 +20,37 @@ export const Placeorder = ({ history }) => {
 	cart.itemsPrice = addDecimals(
 		cart.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0)
 	);
-	cart.shippingPrice = addDecimals(cart.itemsPrice > 100 ? 0 : 10);
-	cart.taxPrice = addDecimals(Number(0.15 * cart.itemsPrice));
+	cart.shippingPrice = addDecimals(cart.itemsPrice > 100 ? 0 : 100);
+	cart.taxPrice = addDecimals(Number((0.15 * cart.itemsPrice).toFixed(2)));
 	cart.totalPrice = (
 		Number(cart.itemsPrice) +
 		Number(cart.shippingPrice) +
 		Number(cart.taxPrice)
 	).toFixed(2);
 
-	const placeOrderHandler = () => {
-		dispatch(
-			createOrder({
-				orderItems: cart.cartItems,
-				shippingAddress: cart.shippingAddress,
-				paymentMethod: cart.paymentMethod,
-				itemsPrice: cart.itemsPrice,
-				shippingPrice: cart.shippingPrice,
-				taxPrice: cart.taxPrice,
-				totalPrice: cart.totalPrice,
-			})
-		);
-	};
+	const orderCreate = useSelector((state) => state.orderCreate);
+	const { order, success, error } = orderCreate;
 
+	useEffect(() => {
+		if (success) {
+			history.push(`/order/${order._id}`);
+		}
+		// eslint-disable-next-line
+	}, [history, success]);
+
+	const placeOrderHandler = () => {
+		const order = {
+			orderItems: cart.cartItems,
+			shippingAddress: cart.shippingAddress,
+			paymentMethod: cart.paymentMethod,
+			itemsPrice: cart.itemsPrice,
+			shippingPrice: cart.shippingPrice,
+			taxPrice: cart.taxPrice,
+			totalPrice: cart.totalPrice,
+		};
+		console.log(order);
+		dispatch(createOrder(order));
+	};
 	return (
 		<>
 			<CheckoutSteps step1 step2 step3 step4 />

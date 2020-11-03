@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 
 // Components
 import { Message } from "../../components/Message/Message";
